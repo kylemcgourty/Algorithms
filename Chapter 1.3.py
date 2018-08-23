@@ -71,5 +71,33 @@ class Parentheses:
 
 
 
-tester = Parentheses()
+# 1.3.5
+
+answer = "Prints the binary representation of n"
+
+# 1.3.6
+
+answer = "Reverses the order of the queue"
+
+
+# 1.3.7
+
+class Stack:
+
+    def __init__(self):
+        self.stack = []
+        self.index
+
+    def peek(self):
+        return self.stack[self.index]
+
+
+#1.3.8
+
+notes = "Resizing array stack of strings"
+
+answer = "stack size of 1, value in stack: 'it'"
+
+
+#1.3.9
 
