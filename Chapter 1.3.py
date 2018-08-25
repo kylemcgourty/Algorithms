@@ -101,3 +101,49 @@ answer = "stack size of 1, value in stack: 'it'"
 
 #1.3.9
 
+# function that completes left parentheses
+
+class ParenthesesProcessor:
+    def __init__(self, incomplete_math_expression):
+        self.expressions = []
+        self.operators = []
+        self.final_expression = ""
+        self.missing_parentheses_parser(incomplete_math_expression)
+
+    def missing_parentheses_parser(self, incomplete_math_expression):
+        for character in incomplete_math_expression:
+            if self.operand_determiner(character):
+                self.expressions.append(character)
+            elif self.operator_determiner(character):
+                self.operators.append(character)
+            elif self.parentheses_determiner(character):
+                first_expression = self.expressions.pop()
+                operator = self.operators.pop()
+                second_expression = self.expressions.pop()
+                newexpression ='(' + second_expression + operator + first_expression + ')'
+                self.expressions.append(newexpression)
+
+        print("before,", self.expressions)
+        for expression in self.expressions:
+            self.final_expression += expression
+
+        print(self.final_expression)
+
+    def operand_determiner(self, character):
+        if character in set(["1", "2", "3", "4", "5", "6", "7","8", "9"]):
+            return True
+        else:
+            return False
+    def operator_determiner(self, character):
+        if character == '+' or character == '-' or character == '*':
+            return True
+        else:
+            return False
+    def parentheses_determiner(self, character):
+        if character == ')':
+            return True
+        else:
+            return False
+
+
+parentheses = ParenthesesProcessor("1+2)*3-4)*5-6)))")
