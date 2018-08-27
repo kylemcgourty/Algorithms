@@ -309,14 +309,120 @@ class ResizingArrayQueueOfStrings:
 
 
 
-queue = ResizingArrayQueueOfStrings(5)
-
-queue.enqueue("first")
-queue.enqueue("second")
-queue.dequeue()
-queue.enqueue("third")
-queue.dequeue()
-
-
+# queue = ResizingArrayQueueOfStrings(5)
+#
+# queue.enqueue("first")
+# queue.enqueue("second")
+# queue.dequeue()
+# queue.enqueue("third")
+# queue.dequeue()
 
 
+
+
+#1.3.15
+
+"""use queue to find the kth from last item"""
+
+class Queue:
+    def __init__(self):
+        self.first = None
+        self.last = None
+        self.size = 0
+
+    class Node:
+        def __init__(self, item):
+            self.item = item
+            self.next = None
+
+    def enqueue(self, item):
+        new_node = self.Node(item)
+        print("the new node!", item)
+        if self.last != None:
+            self.last.next = new_node
+        self.last = new_node
+        if self.first == None:
+            self.first = new_node
+        self.size += 1
+
+    def dequeue(self):
+        item = self.first.item
+        self.first = first.next
+        if self.first == None:
+            self.last = None
+        print("the item", item)
+        self.size -= 1
+        return item
+
+
+
+
+class PrintK:
+
+    def __init__(self):
+        self.k = input("enter value")
+        self.stringStack = list(input("enter strings").split())
+        self.queue = Queue()
+
+        print("the string stack", self.stringStack)
+        for user_string in self.stringStack:
+            self.queue.enqueue(user_string)
+
+        values_to_traverse = self.queue.size - int(self.k)
+
+        node = self.queue.first
+        i = 1
+        while(i<= values_to_traverse):
+            node = node.next
+            i +=1
+
+        item = node.item
+
+        print("the retrieved item", item)
+
+
+#kth_item = PrintK()
+
+
+#1.3.16
+
+
+
+class ReadAllDates:
+
+    def __init__(self):
+
+        self.dateStack = list(input("enter dates").split())
+        self.queue = Queue()
+
+        print("the string stack", self.dateStack)
+        for date_string in self.dateStack:
+            self.queue.enqueue(self.Date(date_string))
+
+
+        node = self.queue.first
+        dates_array = numpy.empty(self.queue.size, object)
+        i = 0
+        while(node != None):
+            dates_array[i] = node.item.getDate()
+            node = node.next
+            i += 1
+
+
+
+
+        print("the dates", dates_array)
+
+    class Date:
+        def __init__(self, date):
+            times = date.split("/")
+            self.month = times[0]
+            self.day = times[1]
+            self.year = times[2]
+
+        def getDate(self):
+            return self.month + "-" + self.day + "-" + self.year
+
+
+
+#date = ReadAllDates()
