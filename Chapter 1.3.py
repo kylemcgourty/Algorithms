@@ -239,3 +239,84 @@ class EvaluatePostfix:
 
 
 #postfix = EvaluatePostfix("223+*4/")
+
+
+#1.3.12
+"""copy function for a stack of strings"""
+
+class CopyStack:
+    def __init__(self, string_stack):
+        self.copy_stack(string_stack)
+    def copy_stack(self, string_stack):
+        """I'm cheating because this is Python. Future exercises in C to come."""
+        return string_stack.copy()
+
+#1.3.13
+
+answer = "b, c, d"
+
+#1.3.14
+
+import numpy
+class ResizingArrayQueueOfStrings:
+
+    def __init__(self, array_size):
+        self.queue = numpy.empty(array_size, object)
+        self.array_pointer = 0
+        self.dq_array_pointer = 0
+        self.array_size = array_size
+        self.amount = 0
+    def enqueue(self, item):
+        self.queue[self.array_pointer] = item
+        self.array_pointer = (self.array_pointer + 1) % self.array_size
+
+        """resizing logic"""
+        self.amount +=1
+        if self.amount > 1/2 * self.array_size:
+            self.resize()
+        print(self.queue)
+    def dequeue(self):
+        string_item = self.queue[self.dq_array_pointer]
+        self.queue[self.dq_array_pointer] = None
+        self.dq_array_pointer = (self.dq_array_pointer + 1) % self.array_size
+        self.amount -= 1
+        if (self.amount < self.array_size * 1/4):
+            self.decrease_size()
+        print(self.queue)
+        return string_item
+
+    def resize(self):
+        self.array_size *= 2
+        new_queue = numpy.empty(self.array_size, object)
+        for index, string in enumerate(self.queue):
+            new_queue[index] = string
+        self.queue = new_queue
+
+    def decrease_size(self):
+        self.array_size = self.array_size // 2
+        new_queue = numpy.empty(self.array_size, object)
+
+        i = self.dq_array_pointer
+        j =0
+        while (self.queue[i] != None and i < len(self.queue)):
+            new_queue[j] = self.queue[i]
+            i += 1
+            j += 1
+
+        self.array_pointer = j
+        self.queue = new_queue
+        self.dq_array_pointer = 0;
+
+
+
+queue = ResizingArrayQueueOfStrings(5)
+
+queue.enqueue("first")
+queue.enqueue("second")
+queue.dequeue()
+queue.enqueue("third")
+queue.dequeue()
+
+
+
+
