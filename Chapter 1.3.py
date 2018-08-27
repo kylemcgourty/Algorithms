@@ -146,4 +146,96 @@ class ParenthesesProcessor:
             return False
 
 
-parentheses = ParenthesesProcessor("1+2)*3-4)*5-6)))")
+#parentheses = ParenthesesProcessor("1+2)*3-4)*5-6)))")
+
+
+#1.3.10
+#TBC
+#converts infix to postfix (operators trail operands)
+
+
+# class InfixToPostfix:
+#     def __init__(self, mathematical_expression):
+#         self.experssions = list()
+#         self.operators = list()
+#         self.skip = False
+#         self.convert_to_postfix(mathematical_expression)
+#
+#     def convert_to_postfix(self, mathematical_expression):
+#         for char, index in enumerate(mathematical_expression):
+#             if self.skip:
+#                 self.skip = False
+#                 continue;
+#             if mathematical_expression == "(" or mathematical_expression == ")":
+#                 continue;
+#             if self.operand_determiner(char):
+#                 self.experssions.append(char)
+#             elif self.operator_determiner(char):
+#                 if mathematical_expression[index+1] != "(":
+#                     self.convert_to_postfix(mathematical_expression[index+1])
+#                     newexpression = "".join(self.experssions[-2:])
+#                     newexpression += char
+#                     self.expressions.append(newexpression)
+#                     self.skip = True
+#                     if len(self.experssions) > 1:
+#                         self.compose()
+#                 else:
+#                     self.operators.append(char)
+#
+#         print("the final", self.experssions)
+#
+#     def compose(self):
+#         first_expression =self.experssions.pop()+self.operators.pop()+self.operators.pop()
+#         new_expression = self.experssions.pop()+ first_expression
+#         self.expressions.append(new_expression)
+#
+#     def operand_determiner(self, character):
+#         if character in set(["1", "2", "3", "4", "5", "6", "7", "8", "9"]):
+#             return True
+#         else:
+#             return False
+#
+#     def operator_determiner(self, character):
+#         if character == '+' or character == '-' or character == '*' or character == "/":
+#             return True
+#         else:
+#             return False
+
+
+#postfix = InfixToPostfix("A*B+C/D")
+
+
+#1.3.11
+
+import operator
+
+class EvaluatePostfix:
+    def __init__(self, postfix):
+        self.operands = list()
+        self.operators_table = {"+": operator.add, "-": operator.sub, "*": operator.mul, "/": operator.truediv}
+        self.evaluate(postfix)
+
+
+    def evaluate(self, postfix):
+        for index, char in enumerate(postfix):
+            if self.char_eval(char):
+                self.operands.append(char)
+            else:
+                self.operand_combiner(char)
+
+        print("result", self.operands.pop())
+
+    def char_eval(self, char):
+        if char in set(["1", "2", "3", "4", "5", "6", "7", "8", "9"]):
+            return True
+        else:
+            return False
+
+    def operand_combiner(self, op):
+        most_recent_operand = int(self.operands.pop())
+        second_operand = int(self.operands.pop())
+        evaluated_expression = self.operators_table[op](second_operand, most_recent_operand)
+        self.operands.append(evaluated_expression)
+
+
+#postfix = EvaluatePostfix("223+*4/")
