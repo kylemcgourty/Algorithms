@@ -160,7 +160,7 @@ class WeightedQuickUnion:
 
         self.count -= 1
 
-weighted_quickunion = WeightedQuickUnion()
+#weighted_quickunion = WeightedQuickUnion()
 
 
 #1.5.4
@@ -176,3 +176,91 @@ answer = "10 machine instructions in the inner loop + 2 other array accesses. 10
 answer = "Weighted quick union uses at most c m lg n array accesses, m is connections and n is sites. Let c == 2. Let the number of input pairs be the" \
          "number of connections to be established. Thus we have, 2 * 10^6 lg 10^9 = 590, 794, 000. Converting to seconds: 59794000 * 1 second/ 10^9 instructions =" \
          "approximately .058 seconds"
+
+
+#1.5.7
+
+#See 1.5.1 and 1.5.2
+
+#1.5.8
+
+answer = "Rather than store the results of id[p], the call to union uses at worst two array accesses to id[p] inside the inner loop"
+
+#1.5.9
+"""Tree"""
+"""   1
+   0  3  6
+     2 7   5
+          9  4
+               8
+"""
+
+answer = "By Proposition H, the height of any node forest built by weighted quick-union is at most lg n. Since this height of 4 > lg 10, it violates the proposition."
+
+
+#1.5.10
+
+answer = "Yes, the algorithm would function. But the tree heights would be increased."
+
+#1.5.11
+
+
+class WeightedQuickUnionExperiment:
+    def __init__(self):
+        self.id = [i for i in range(10)]
+        self.sz = [1 for i in range(10)]
+        print('the arrays', self.id, self.sz)
+        self.count = 10
+        self.array_accesses = 0
+
+
+
+        """" reference inputs """
+
+        self.weighted_quickunion(4, 3)
+        self.weighted_quickunion(3, 8)
+        self.weighted_quickunion(6, 5)
+        self.weighted_quickunion(9, 4)
+        self.weighted_quickunion(2, 1)
+        self.weighted_quickunion(5, 0)
+        self.weighted_quickunion(7, 2)
+        self.weighted_quickunion(6, 1)
+
+
+    def find(self, p):
+        while p != self.id[p]:
+            self.array_accesses +=1
+            p = self.id[p]
+        return p
+
+
+    def weighted_quickunion(self, p, q):
+        self.array_accesses = 0
+        i = self.find(p)
+        j = self.find(q)
+        if i == j:
+            return
+        if self.sz[i] > self.sz[j]:
+            self.sz[i] += self.sz[j]
+            self.changeAllComponents(q, p)
+        else:
+            self.sz[j] += self.sz[i]
+            self.id[j] =i
+            self.changeAllComponents(p, q)
+
+        self.array_accesses += 2
+        print("the weighted array and array accesses", self.id, self.sz, self.array_accesses)
+
+        self.count -= 1
+
+    def changeAllComponents(self, smaller , larger):
+        while smaller != self.id[smaller]:
+            p = self.id[smaller]
+            self.id[smaller] = larger
+            smaller = p
+            self.array_accesses += 3
+
+
+weighted_quickunion = WeightedQuickUnionExperiment()
+
+answer = "The tree has a much flatter structure at the expense of more array accesses."
