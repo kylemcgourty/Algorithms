@@ -261,6 +261,6 @@ class WeightedQuickUnionExperiment:
             self.array_accesses += 3
 
 
-weighted_quickunion = WeightedQuickUnionExperiment()
+#weighted_quickunion = WeightedQuickUnionExperiment()
 
 answer = "The tree has a much flatter structure at the expense of more array accesses."
