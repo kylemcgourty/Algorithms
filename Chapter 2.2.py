@@ -77,3 +77,57 @@ Bottom up
 Subarray lengths: 2, 4, 8, 16, 32, 39
 
 """
+
+#2.2.6
+
+
+class MergeSort:
+    def __init__(self):
+        self.aux = [None]*7;
+        self.a = [3, 2, 5, 11, 7, 33, 8]
+
+        self.sort(0, 6)
+
+        print("sorted", self.a)
+
+
+
+    def sort(self, lo, hi):
+
+        if hi <= lo:
+            return
+        mid = lo + (hi-lo)//2
+        self.sort(lo, mid)
+        self.sort(mid+1, hi)
+        self.merge(lo, mid, hi)
+
+    def merge(self, lo, mid, hi):
+
+        i = lo
+        j = mid+1
+
+        for k in range(lo, hi+1):
+            self.aux[k] = self.a[k]
+
+        for k in range(lo, hi+1):
+            if i > mid:
+                self.a[k] = self.aux[j]
+                j += 1
+            elif j > hi:
+                self.a[k] = self.aux[i]
+                i += 1
+            elif self.less(self.aux[j], self.aux[i]):
+                self.a[k] = self.aux[j]
+                j += 1
+            else:
+                self.a[k] = self.aux[i]
+                i += 1
+
+    def less(self, a, b):
+        if a < b:
+            return True
+        else:
+            return False
+
+
+merge = MergeSort()
