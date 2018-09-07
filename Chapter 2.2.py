@@ -79,16 +79,21 @@ Subarray lengths: 2, 4, 8, 16, 32, 39
 """
 
 #2.2.6
-
+import math
+import numpy
 
 class MergeSort:
     def __init__(self):
-        self.aux = [None]*7;
-        self.a = [3, 2, 5, 11, 7, 33, 8]
 
-        self.sort(0, 6)
 
-        print("sorted", self.a)
+        for i in range(1, 513):
+            self.array_accesses = 0
+            self.aux = [None]*i;
+            self.a = numpy.random.randint(0,i, i)
+            self.sort(0, len(self.a)-1)
+            print("sorted", self.a)
+            print("actual array accesses", self.array_accesses)
+            print("predicted array accesses", 6*i*math.log(i, 2))
 
 
 
@@ -108,6 +113,7 @@ class MergeSort:
 
         for k in range(lo, hi+1):
             self.aux[k] = self.a[k]
+            self.array_accesses += 1
 
         for k in range(lo, hi+1):
             if i > mid:
@@ -122,12 +128,81 @@ class MergeSort:
             else:
                 self.a[k] = self.aux[i]
                 i += 1
+            self.array_accesses += 1
 
     def less(self, a, b):
+        self.array_accesses += 2
         if a < b:
             return True
         else:
             return False
 
 
-merge = MergeSort()
+#merge = MergeSort()
+
+
+
+class BottomUpMergeSort:
+    def __init__(self):
+
+        # self.array_accesses = 0
+        # self.a = [4, 22, 2, 11, 6, 8]
+        # self.aux = [None] * 6
+        # self.sort()
+        # print("array", self.a)
+
+        for i in range(1, 513):
+            self.array_accesses = 0
+            self.aux = [None]*i;
+            self.a = numpy.random.randint(0,i, i)
+            self.sort()
+            print("sorted", self.a)
+            print("actual array accesses", self.array_accesses)
+            print("predicted array accesses", 6*i*math.log(i, 2))
+
+
+
+    def sort(self):
+        length = len(self.a)
+        iterables = [2 ** j for j in range(0, length+1, 1) if 2 ** j < length]
+
+        print("the iterables", iterables)
+        for i in iterables:
+            for j in range(0, length - i, 2*i):
+                self.merge(j, j + i - 1, min([j + i + i - 1, length - 1]))
+
+
+
+    def merge(self, lo, mid, hi):
+
+        i = lo
+        j = mid+1
+
+        for k in range(lo, hi+1):
+            self.aux[k] = self.a[k]
+            self.array_accesses += 1
+
+        for k in range(lo, hi+1):
+            if i > mid:
+                self.a[k] = self.aux[j]
+                j += 1
+            elif j > hi:
+                self.a[k] = self.aux[i]
+                i += 1
+            elif self.less(self.aux[j], self.aux[i]):
+                self.a[k] = self.aux[j]
+                j += 1
+            else:
+                self.a[k] = self.aux[i]
+                i += 1
+            self.array_accesses += 1
+
+    def less(self, a, b):
+        self.array_accesses += 2
+        if a < b:
+            return True
+        else:
+            return False
+
+
+BMS = BottomUpMergeSort()
