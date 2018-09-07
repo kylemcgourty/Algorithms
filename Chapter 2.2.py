@@ -88,12 +88,14 @@ class MergeSort:
 
         for i in range(1, 513):
             self.array_accesses = 0
+            self.compares = 0
             self.aux = [None]*i;
             self.a = numpy.random.randint(0,i, i)
             self.sort(0, len(self.a)-1)
-            print("sorted", self.a)
-            print("actual array accesses", self.array_accesses)
-            print("predicted array accesses", 6*i*math.log(i, 2))
+            # print("sorted", self.a)
+            print("the compares", self.compares)
+            # print("actual array accesses", self.array_accesses)
+            # print("predicted array accesses", 6*i*math.log(i, 2))
 
 
 
@@ -113,22 +115,27 @@ class MergeSort:
 
         for k in range(lo, hi+1):
             self.aux[k] = self.a[k]
-            self.array_accesses += 1
+            self.array_accesses += 2
 
         for k in range(lo, hi+1):
             if i > mid:
                 self.a[k] = self.aux[j]
                 j += 1
+                self.compares += 1
+
             elif j > hi:
                 self.a[k] = self.aux[i]
                 i += 1
+                self.compares +=2
             elif self.less(self.aux[j], self.aux[i]):
                 self.a[k] = self.aux[j]
                 j += 1
+                self.compares +=3
             else:
                 self.a[k] = self.aux[i]
                 i += 1
-            self.array_accesses += 1
+                self.compares += 3
+            self.array_accesses += 2
 
     def less(self, a, b):
         self.array_accesses += 2
@@ -138,7 +145,7 @@ class MergeSort:
             return False
 
 
-#merge = MergeSort()
+# merge = MergeSort()
 
 
 
@@ -180,7 +187,7 @@ class BottomUpMergeSort:
 
         for k in range(lo, hi+1):
             self.aux[k] = self.a[k]
-            self.array_accesses += 1
+            self.array_accesses += 2
 
         for k in range(lo, hi+1):
             if i > mid:
@@ -195,7 +202,7 @@ class BottomUpMergeSort:
             else:
                 self.a[k] = self.aux[i]
                 i += 1
-            self.array_accesses += 1
+            self.array_accesses += 2
 
     def less(self, a, b):
         self.array_accesses += 2
@@ -205,4 +212,96 @@ class BottomUpMergeSort:
             return False
 
 
-BMS = BottomUpMergeSort()
+#BMS = BottomUpMergeSort()
+
+
+#2.2.7
+
+#See class on 2.2.6 mergesort
+
+#2.2.8
+
+"""experimental mergesort: skip already sorted arrays"""
+
+
+class ExperimentalMergeSort:
+    def __init__(self):
+
+
+        for i in range(1, 513):
+            self.array_accesses = 0
+            self.compares = 0
+            self.aux = [None]*i;
+            self.a = numpy.random.randint(0,i, i)
+            self.sort(0, len(self.a)-1)
+            print("sorted", self.a)
+            print("compares", self.compares)
+
+            # print("actual array accesses", self.array_accesses)
+            # print("predicted array accesses", 6*i*math.log(i, 2))
+
+
+
+    def sort(self, lo, hi):
+
+        if hi <= lo:
+            return
+        mid = lo + (hi-lo)//2
+        self.sort(lo, mid)
+        self.sort(mid+1, hi)
+
+        if self.a[mid] <= self.a[mid+1]:
+            self.compares += 1
+            pass
+        else:
+            self.compares += 1
+            self.merge(lo, mid, hi)
+
+    def merge(self, lo, mid, hi):
+
+        i = lo
+        j = mid+1
+
+        for k in range(lo, hi+1):
+            self.aux[k] = self.a[k]
+            self.array_accesses += 2
+
+        for k in range(lo, hi+1):
+            if i > mid:
+                self.a[k] = self.aux[j]
+                j += 1
+                self.compares += 1
+
+            elif j > hi:
+                self.a[k] = self.aux[i]
+                i += 1
+                self.compares += 2
+
+            elif self.less(self.aux[j], self.aux[i]):
+                self.a[k] = self.aux[j]
+                j += 1
+                self.compares +=3
+            else:
+                self.a[k] = self.aux[i]
+                i += 1
+                self.compares +=3
+
+            self.array_accesses += 2
+
+    def less(self, a, b):
+        self.array_accesses += 2
+        if a < b:
+            return True
+        else:
+            return False
+
+
+#ems = ExperimentalMergeSort()
+
+"""Sorted arrays would have a linear number of compares given the change made in experimental mergesort."""
+
+
+
+#2.2.9
+
+"""My implementatinos use an instance variable for aux."""
