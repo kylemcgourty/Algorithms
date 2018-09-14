@@ -77,22 +77,17 @@ class PQOrderedArray:
 
         exchange(self.ordered, 1, len(self.ordered)-1);
 
-        print("array after exchange", self.ordered)
-
         self.ordered.pop(len(self.ordered)-1)
 
         self.sink(1, self.ordered[1])
 
-
-        print("max new array", max, self.ordered)
+        print("the max and new array", max, self.ordered)
 
 
     def sink(self, idx, key):
 
-        print("The indx and key in sink", idx, key)
         while 2*idx < len(self.ordered):
             j = idx *2
-            print("the j values", j)
             if j +1 < len(self.ordered) and (self.ordered[j] < self.ordered[j+1]):
                 j += 1
             if key >= self.ordered[j]:
@@ -102,4 +97,76 @@ class PQOrderedArray:
 
 
 
-OrderedArray_PQ = PQOrderedArray()
+#OrderedArray_PQ = PQOrderedArray()
+
+
+answer = "The PQ ordered array requires lg n + 1 compares for " \
+         "insert and 3 lg n compares for remove the maximum"
+
+
+class UnorderedLinkedList:
+    def __init__(self):
+
+
+        self.front = None
+        self.end = None
+        self.length = 0
+
+        self.insert(1)
+        self.insert(7)
+        self.insert(5)
+        self.insert(11)
+        self.insert(2)
+
+        self.remove_maximum()
+        self.remove_maximum()
+
+    class Node:
+        def __init__(self, val):
+            self.next = None
+            self.value = val
+
+    def insert(self, val):
+
+        new_node = self.Node(val)
+        if self.end != None:
+             self.end.next = new_node
+        self.end = new_node
+
+        if self.length == 0:
+             self.front = new_node
+
+        self.length += 1
+
+    def remove_maximum(self):
+         max = 0
+         node = self.front
+         while node.next:
+
+             if node.value > max:
+                 max = node.value
+             node = node.next
+
+         if self.front.value == max:
+             self.front = self.front.next
+
+             return
+         node2 = self.front.next
+         node1 = self.front
+
+         while node2 is not None:
+            if node2.value == max:
+                self.remove_logic(node1, node2)
+            node1 = node1.next
+            node2 = node2.next
+
+         print("the max,", max)
+
+    def remove_logic(self,previous, current):
+        previous.next = current.next
+        current = None
+
+#UOLL = UnorderedLinkedList()
+
+answer = "The runtime for an unordered list PQ is constant time for insert and proportional to 2n for remove" \
+         "the maximum"
