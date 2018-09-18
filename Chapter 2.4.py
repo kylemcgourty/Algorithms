@@ -347,8 +347,6 @@ answer = "The second largest element may appear at index 2 or 3. It may not appe
          "The 3rd largest element may appear at 2, 3, 4, 5, 6, 7." \
          "The 4th largest element may appear at 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15"
 
-testing_array = [0 100 77 99 6 5 58 97 4  3  1   1  48  47 96  95]
-testing_index = [0 1   2  3  4 5 6  7  8  9  10  11 12 13  14  15]
 
 
 #2.4.8
@@ -361,15 +359,15 @@ answer = "the Kth smallest item is the (n-k)th largest. The position for the (n-
 #2.4.9
 
 
-answer = "Assuming we care constructing max heaps, then"  \  
- bheaps ="E D C B A"\
+answer = "Assuming we care constructing max heaps, then"
+bheaps ="E D C B A"\
          "E D C A B"\
          "E C D B A"\
          "E C D A B"\
          "E D A B C"\
          "E D B A C"\
 
-2keybheaps ="B B A A A" \
+twokeybheaps ="B B A A A" \
             "B A B A A"
 
 
@@ -391,3 +389,90 @@ answer = "The best choices lie between an ordered array and a heap. Heap inserts
          "to log n and ordered array inserts have a runtime proporitional to n. Both have a " \
          "find the maximum runtime that is constant. Therefore, a binary heap would be the best" \
          "choice in this scenario."
+
+
+#2.4.13
+
+answer = "The compare j < n can be removed if the following code is made its substitute"
+
+# def sink(k):
+#     while((j = 2*k) <= n){
+#        if j == n:
+#            compare_and_exchange(j, k)
+#         else:
+#         if less(j, j+1):
+#             j +=1
+#             compare_and_exchange(j, k)
+#
+# def compare_and_exchange(j, k):
+#     """exchange details"""
+#     if !less(k, j):
+#         break;
+#     exchange(k, j);
+
+
+#2.4.15
+
+# def MinPQ_Tester(pq, keys):
+#     minimum = keys[pq[0]]
+#     for index in pq[1:]:
+#         if minimum < keys[pq[index]]:
+#             minimum = keys[pq[index]]
+#         else:
+#             return "Not a minimum PQ"
+
+#2.4.16
+
+answer = "Heapsort will use as few compares as possible for an array with similar entries. This is because the " \
+         "call to sink will use one less compare per iteration." \
+         "By contrast, heap sort will use as many compares are possible if the array is sorted in reverse."
+
+#2.4.17
+
+answer = "Take a pq of size k. Do n - k inserts and remove the minimum. Each call to insert calls swim. The call to " \
+          "deleteMin removes the minimum and sinks an item from the bottom of the array. Since each call is guaranteed" \
+          "to remove the minimum value in the PQ, the remaining items are larger. Thus, n - k such calls will leave the k" \
+          "largest of the n items in the pq."
+
+
+#2.4.18
+
+answer = "Part 1: A heap receives a new max item. Swim is called, moving the item to the beginning of the array." \
+         "DelMax takes an item at the bottom of the array. The call to sink may move it to a new position in the array." \
+         "Part 2: The heap receives two max items followed by two DelMax calls. It can be shown the heaps will no longer be " \
+         "identical."
+
+#2.4.19
+
+
+class MaxPQ:
+    def __init__(self, array):
+        self.array = array
+        self.size = len(array)-1
+        for index in range(self.size//2, -1, -1):
+            self.sink(index)
+
+        print("The max pq array", self.array)
+
+    def sink(self, k):
+        while 2*k <= self.size:
+            j = 2*k
+            if j < self.size and self.array[j] < self.array[j+1]:
+                j +=1
+            if self.array[k] > self.array[j]:
+                break
+            exchange(self.array, k, j);
+            k = j;
+
+
+
+maxPQ = MaxPQ([3, 5, 6, 2, 1, 9, 7, 88, 22, 11])
+
+
+#2.4.20
+
+answer = "Sink based construction begins with iterating in reverse through the first half of the array. Half of" \
+         "these calls to sink (1/4 of the total array), will be involved with construting subheaps. At worst case," \
+         "there will be 1/4 *3 n compares and 1/4 exchanges. As the iteration proceeds through the first quarter " \
+         "of the array, the subheaps are ordered. Each step in this case would take at worst 1/4* 6n compares" \
+         "and 1/4 * 2n exchanges. These totals are 9/4n (~2n) compares and 3/4 (~n) exhanges.
