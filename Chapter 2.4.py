@@ -475,4 +475,4 @@ answer = "Sink based construction begins with iterating in reverse through the f
          "these calls to sink (1/4 of the total array), will be involved with construting subheaps. At worst case," \
          "there will be 1/4 *3 n compares and 1/4 exchanges. As the iteration proceeds through the first quarter " \
          "of the array, the subheaps are ordered. Each step in this case would take at worst 1/4* 6n compares" \
-         "and 1/4 * 2n exchanges. These totals are 9/4n (~2n) compares and 3/4 (~n) exhanges.
+         "and 1/4 * 2n exchanges. These totals are 9/4n (~2n) compares and 3/4 (~n) exhanges."
