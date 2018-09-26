@@ -187,3 +187,33 @@ class BST_2:
 #
 #
 # print("the floor val", bst.floor(12))
+
+
+#3.2.15
+
+answer = "" \
+         "A. floor('Q'): E Q"\
+        "B. select(5): E Q T"\
+        "C. ceiling('Q'): E Q"\
+        "D. rank(j): E Q J"\
+        "E. ?"\
+        "F.  D E Q J M T"
+
+#3.2.16
+
+answer = "External path length for a tree of size n is equal to the average path length, floor(lg (n)) + 1, multiplied by the " \
+         "the number of nodes in the last level, which is 2 ^ (floor(lg n) + 1) = 2n. Thus the external path lenght is ~ 2n lg n + 2n." \
+         "The length of the internal path lengths are given by lg n. The number of nodes to internal nodes at the outermost level is given by" \
+         "2 ^ lg n" \
+         "" \
+         "The difference between the sum of external and internal paths is (2n lg n + 2n) - (n lg n), which roughly simplifies to 2n"
+
+
+
+#3.2.22
+
+answer = "If a node in a BST has two children, its successor has no left child and its predecessor has no right child." \
+         "Predecessor: right most element if left subtree. Successor: left most element in right subtree." \
+         "Since a successor will be the left most element, it will not have any left children. Since predecessor is rightmost" \
+         "element in left tree, it will have no right children."
+
