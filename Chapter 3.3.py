@@ -35,3 +35,58 @@ answer = "1st          E" \
 \
 
 
+#3.3.4
+
+answer =  "For a tree that is all three nodes, the structure resembles" \
+          "   36"\
+          "12 45 78" \
+          "There are twice as many nodes than for a typical terary tree. Thus, the height is floor(log (3) n)." \
+          "For a binary tree, the structure resembles" \
+          "    2" \
+          " 1    3" \
+          "The height is floor(log(2) n). Thus, a tree that has a structure between these two extremes has a height between these" \
+          "two calculations."
+
+
+#3.3.5
+
+answer = "7 nodes:" \
+         "  NN" \
+         "NN N NN" \
+         "" \
+         "  NN" \
+         "N NN NN" \
+         "" \
+        "8 nodes:" \
+         "   NN" \
+         "NN NN NN" \
+         "" \
+         "9 nodes:"\
+        "    N" \
+         "  N   N" \
+         "NN N N NN"\
+        " "\
+        "    N" \
+         "  N   N" \
+         "N  NN N NN"\
+        ""\
+        "    N" \
+         "  N   N" \
+         "N  NN NN N"\
+        ""\
+        "10 nodes:"\
+        "    N" \
+         "  N   N" \
+         "NN  NN NN N"\
+        ""\
+        "    N" \
+         "  N   N" \
+         "N  NN NN NN"\
+""\
+        "    N" \
+         "  N     NN" \
+         "N  NN N  N N"\
+""\
+        "    N" \
+         "  NN     N" \
+         "N  N N  N NN"\
