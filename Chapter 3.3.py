@@ -100,3 +100,14 @@ answer = "3"
 #3.3.11
 
 answer = "See pdf."
+
+
+
+#3.3.13
+
+answer = "A monotonically increasing tree must never decrease in height. Since Red-black trees preserve balance, they are monotonically" \
+         "increasing."
+
+#3.3.15
+
+answer = "Same answer as 3.3.13."
