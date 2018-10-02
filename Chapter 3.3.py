@@ -90,3 +90,13 @@ answer = "7 nodes:" \
         "    N" \
          "  NN     N" \
          "N  N N  N NN"\
+
+
+#3.3.9
+
+answer = "3"
+
+
+#3.3.11
+
+answer = "See pdf."
