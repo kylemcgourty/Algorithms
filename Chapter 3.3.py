@@ -224,3 +224,16 @@ class RedBlackBST:
 # redBlackBST.put(41, "Summit older")
 # redBlackBST.put(23, "Marko")
 # redBlackBST.printer()
+
+
+#3.3.20
+
+answer = "Let Cn be the internal path length of a Red Black BST. The average length of a path for a Red Black BST is " \
+         "Cn/n. We known from Property H that the average lenght of a from root to a node is 1.00 lg n. Equating these relations,"\
+        "we have Cn/n = 1.00 lg n. Cn = n lg n."
+
+#3.3.22
+
+answer = "Red black BST are nearly always perfectly balanced. Perfectly balanced trees will always be less than or equal to" \
+         "the height of binary search trees. For large n, the average height of a BST is near 2.99 lg n. For Red Black BST's," \
+         "their height is not larger than 2 lg n."
