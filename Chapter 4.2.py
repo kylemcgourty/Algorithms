@@ -288,3 +288,45 @@ class Topological:
                 print(v)
 
 topological = Topological(diagraph, 10)
+
+
+#4.2.10
+
+answer = "Given that DFS traverses all the nodes in a graph, it should stand that aside from permutations of adjacent nodes," \
+         "all topological orderings will be given."
+
+#4.2.11
+
+answer = "Take an initial graph consisting of a cycle of three nodes. Continually add vertices that connect to" \
+         "at least two other nodes graph. The number of cycles should grow exponentially."
+
+#4.2.12
+
+answer = "Strongly connected components have some sort of cycle enabling the components to be mutually reachable. Reversing" \
+         "a graph still preserves these cycles."
+
+#4.2.13
+
+answer = "Two vertices a strongly connected if they are mutually reachable. In a directed graph, if A is reachable from B" \
+         "and B is reachable from A, this implies a cycle."
+
+#4.2.14
+
+answer = "The value of vertex v means in may be called by DFS before or after the strongly connected component C. Two situations" \
+         "arise in which C is processed by DFS. 1) It is invoked by a node in C. The result is the v will be invoked by DFS later " \
+         "and hence will be appear earlier in the ReversePost Order. 2) v may be processed first, and thus the edge leading to C" \
+         "will invoke DFS on C. As in the earlier case, v will appear earlier in the RPO."
+
+#4.2.15
+
+ansewr = "The setup of this problem leads to the same solution as 4.2.14. In Gr, the edge of v leads to C, thus the answer is the"\
+         "same."
+
+#4.2.16
+
+answer = "A kernel DAG operates just as a standard DAG. The first item in the reverse postorder, must be a source of the. The reasoning" \
+         "behind this is as follows: if a vertex v is the last vertex in the adjacency list selected last by DFS, then it is " \
+         "naturally the source component. On the other hand, if v is selected, and then all other nodes are processed by DFS," \
+         "this also means it will be placed first in the RPO. In both cases, v is a source node."\
+         "In Gr, edges are reversed. The RPO will have as its first vertex strong component that acts as a source to Gr. Self evidently, if edges" \
+         "are reveresed again, this strong component is a sink in G."
