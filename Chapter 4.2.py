@@ -243,6 +243,48 @@ diagraph.addEdge(1,4)
 diagraph.addEdge(0,2)
 diagraph.addEdge(8,7)
 diagraph.addEdge(7,3)
-diagraph.addEdge(3,4)
+# diagraph.addEdge(3,4)
 
-directed_cycle = DirectedCycle(diagraph,10)
+# directed_cycle = DirectedCycle(diagraph,10)
+
+
+
+class DepthFirstOrder:
+    def __init__(self, G, V):
+        self.pre = list()
+        self.post = list()
+        self.reversePostStack = list()
+        self.marked = [None]*V
+
+        for v in range(V):
+            if self.marked[v] is None:
+                self.dfs(G, v)
+
+        print("pre", self.pre)
+        print("post", self.post)
+        print("reverse", self.reversePostStack)
+    def dfs(self, G, v):
+
+        self.pre.append(v)
+        self.marked[v] = True
+        for w in G.adjacency[v]:
+            if self.marked[w] == None:
+                self.dfs(G, w)
+
+        self.post.append(v)
+        self.reversePostStack.append(v)
+
+# dfo = DepthFirstOrder(diagraph, 10)
+
+
+class Topological:
+    def __init__(self, Graph, V):
+        cyclefinder = DirectedCycle(Graph, V)
+
+        if not cyclefinder.hasCycle():
+            dfo = DepthFirstOrder(Graph, V)
+
+            for v in reversed(dfo.reversePostStack):
+                print(v)
+
+topological = Topological(diagraph, 10)
