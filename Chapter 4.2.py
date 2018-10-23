@@ -163,23 +163,86 @@ class Degrees_Diagraph:
             return False
 
 
-diagraph_tester = Degrees_Diagraph(10)
+# diagraph_tester = Degrees_Diagraph(10)
+#
+# diagraph_tester.addEdge(4,7)
+# diagraph_tester.addEdge(5,3)
+# diagraph_tester.addEdge(2,1)
+# diagraph_tester.addEdge(6,4)
+# diagraph_tester.addEdge(4,5)
+# diagraph_tester.addEdge(1,4)
+# diagraph_tester.addEdge(0,4)
+# diagraph_tester.addEdge(8,7)
+#
+# print(diagraph_tester.outdegrees(4))
+# print(diagraph_tester.indegrees(4))
+# print(diagraph_tester.sources())
+# print(diagraph_tester.sinks())
+# print(diagraph_tester.isMap())
 
-diagraph_tester.addEdge(4,7)
-diagraph_tester.addEdge(5,3)
-diagraph_tester.addEdge(2,1)
-diagraph_tester.addEdge(6,4)
-diagraph_tester.addEdge(4,5)
-diagraph_tester.addEdge(1,4)
-diagraph_tester.addEdge(0,4)
-diagraph_tester.addEdge(8,7)
 
-print(diagraph_tester.outdegrees(4))
-print(diagraph_tester.indegrees(4))
-print(diagraph_tester.sources())
-print(diagraph_tester.sinks())
-print(diagraph_tester.isMap())
+#4.2.8 See PDF
 
 
-#4.2.8
+#4.2.9
 
+
+class DirectedCycle:
+    def __init__(self, G, V):
+        self.marked = [None]*V
+        self.edgeTo = [None]*V
+        self.cycle = None
+        self.onStack = [None]*V
+
+        # print("the adjacencies", G.adjacency)
+        for v in range(V):
+            if self.hasCycle():
+                return
+            if self.marked[v] is None:
+                self.dfs(G, v)
+
+    def dfs(self, G, v):
+        self.onStack[v] = True
+        self.marked[v]=True
+
+
+        for w in G.adjacency[v]:
+            if self.hasCycle():
+                return
+            elif self.marked[w] is None:
+                self.edgeTo[w] = v
+                self.dfs(G, w)
+            elif self.onStack[w]:
+                self.cycle = list()
+                x = v
+                print("the edgeto", self.edgeTo)
+                while True:
+                    print("in loop", x, w)
+                    if x == w:
+                        break
+                    self.cycle.append(x)
+                    x = self.edgeTo[x]
+                self.cycle.append(w)
+                self.cycle.append(v)
+                return self.hasCycle()
+
+        self.onStack[v] = False
+
+    def hasCycle(self):
+        print("cycle at ", self.cycle)
+        return self.cycle is not None
+
+
+diagraph = Diagraph(10)
+diagraph.addEdge(4,7)
+diagraph.addEdge(5,3)
+diagraph.addEdge(2,1)
+diagraph.addEdge(6,8)
+diagraph.addEdge(9,3)
+diagraph.addEdge(1,4)
+diagraph.addEdge(0,2)
+diagraph.addEdge(8,7)
+diagraph.addEdge(7,3)
+diagraph.addEdge(3,4)
+
+directed_cycle = DirectedCycle(diagraph,10)
