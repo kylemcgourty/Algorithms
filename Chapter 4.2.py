@@ -330,3 +330,47 @@ answer = "A kernel DAG operates just as a standard DAG. The first item in the re
          "this also means it will be placed first in the RPO. In both cases, v is a source node."\
          "In Gr, edges are reversed. The RPO will have as its first vertex strong component that acts as a source to Gr. Self evidently, if edges" \
          "are reveresed again, this strong component is a sink in G."
+
+
+#4.2.17
+
+answer = 'There are 16 strong components.'
+
+#4.2.18
+
+answer = "There are no strong components in a DAG."
+
+
+#4.2.19
+
+answer = "It will count a strong component for every vertices in the graph."
+
+#4.2.20
+
+answer = "False"
+
+#4.2.21
+
+answer = "False"
+
+#4.2.22
+
+answer = "Observation suggests this is true. Running reversePostOrder of the diagraph will places the sources at the" \
+         "on top of the strong components in the stack. When DFS is iterated through with reversePostOrder on the reverse graph," \
+         "the edges will be reversed and the strong components will be identified"
+
+#4.2.23
+
+answer = "True. BFS will still identify the strong components, whether they consist of multiple vertices or single vertex."
+
+#4.2.24
+
+answer = "The space in the array to house the objects uses ~24 bytes of overhead plus ~40 * V bytes for each vertex. " \
+         "Each vertex in the linked list represents and edge. Thus there are ~ E * 40 bytes used for all of the edges." \
+
+
+#4.2.25
+
+answer = "There will be V(V+1)/2 edges."
+
+
