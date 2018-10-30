@@ -76,14 +76,19 @@ class EdgeWeightGraph:
         self.adjacency_list = [[] for i in range(self.V)]
 
     def addEdge(self, edge):
-        v = edge.either
-        w = edge.other(e)
+        v = edge.either()
+        w = edge.other(v)
 
         self.adjacency_list[v].append(edge)
         self.adjacency_list[w].append(edge)
 
         self.E +=1
 
+    def adjacency_list_iterator(self, v):
+        return self.adjacency_list[v]
+
+    def vertices_count(self):
+        return self.V
 #4.3.11
 
 answer = "Each edge is an object with three integer instance variables. The memory for each edge is 3 * 4 bytes for each integer" \
@@ -105,3 +110,127 @@ answer = "The problem with this implementation is that it always adds an edge to
 
 answer = "Traverse graph G's edgeTo array until the missing edge is found. Add all weights from the cut to the PQ. Take the minimum" \
          "weight on the PQ as the new edge on the MST."
+
+#4.3.15
+
+answer = "Traverse nodes until finding new edge. Traverse  edgeTo[] array, identifying those on both sides of the cut created" \
+         "by the new edge. Compare new edge to crossing edge. Replace if the new edge weight is smaller."
+
+#4.3.16
+
+
+
+
+class PrimsAlgorithm:
+    def __init__(self, EdgeWeightedGraph):
+        self.mst = list()
+        self.graph = EdgeWeightedGraph
+        self.pq = IndexMinPQ(self.graph.vertices_count())
+        self.marked = [False]*self.graph.vertices_count()
+
+
+        self.visit(0)
+
+        while self.pq.isEmpty() == False:
+            edge = self.pq.delMin()
+            v = edge.either()
+            w = edge.other(v)
+            if self.marked[v] and self.marked[w] :
+                continue
+            self.mst.append((v, w, edge.edge_weight()))
+            if self.marked[v] == False:
+                self.visit(v)
+            if self.marked[w] == False:
+                self.visit(w)
+
+        print("The mst", self.mst)
+    def visit(self, v):
+
+        self.marked[v] = True
+        for edge in self.graph.adjacency_list_iterator(v):
+            if self.marked[edge.other(v)] == False:
+                self.pq.insert(int(edge.weight*10), edge)
+
+
+
+
+class IndexMinPQ:
+    def __init__(self, N):
+        self.keys = [None]*1000
+        self.pq = [0] * 1000
+        self.qp = [-1] * 1000
+        self.n = 0
+
+    def insert(self, i, key):
+        print("i and key", i, key.either())
+        self.n += 1
+        self.qp[i] = self.n
+        self.pq[self.n] = i
+        self.keys[i] = key
+        self.swim(self.n)
+
+
+    def swim(self, k,):
+        while k > 1 and self.less(k//2, k):
+            self.exchange(k//2, k)
+            k = k//2
+
+
+    def sink(self, k):
+        while 2*k <= self.n:
+            j = 2*k
+            if j < self.n and self.less(j, j+1):
+                j+=1
+            if self.less(k, j) == False:
+                break
+            self.exchange(k, j)
+            k = j
+
+
+    def less(self, k , j):
+        if self.pq[j] < self.pq[k]:
+            return True
+        elif self.pq[j] > self.pq[k]:
+            return False
+        else:
+            return False
+
+    def exchange(self, k, j):
+        #update qp
+        temp1 = self.qp[self.pq[k]]
+        self.qp[self.pq[k]] = self.qp[self.pq[j]]
+        self.qp[self.pq[j]] = temp1
+
+        #update pq
+        temp = self.pq[k]
+        self.pq[k] = self.pq[j]
+        self.pq[j] = temp
+
+
+
+    def delMin(self):
+        minimum_key = self.keys[self.pq[1]]
+        self.n -= 1
+        self.exchange(1, self.n)
+        self.sink(1)
+        self.keys[self.pq[self.n+1]] = None
+        self.qp[self.pq[self.n+1]] = -1
+        return minimum_key
+
+    def isEmpty(self):
+        return self.n == 0
+
+
+graph = EdgeWeightGraph(9)
+graph.addEdge(Edge(1,2,.5))
+graph.addEdge(Edge(1,3,5))
+graph.addEdge(Edge(3,4,.7))
+graph.addEdge(Edge(4,7,.3))
+graph.addEdge(Edge(4,6,8))
+graph.addEdge(Edge(1,4,.1))
+graph.addEdge(Edge(2,5,.7))
+graph.addEdge(Edge(7,6,.2))
+graph.addEdge(Edge(0,3,.3))
+
+
+prim = PrimsAlgorithm(graph)
