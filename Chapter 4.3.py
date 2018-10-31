@@ -89,6 +89,11 @@ class EdgeWeightGraph:
 
     def vertices_count(self):
         return self.V
+
+    def toString(self):
+        for vertex in self.adjacency_list:
+            for edge in vertex:
+                print("the edge and weight", edge.either(), edge.other(edge.either()), edge.weight)
 #4.3.11
 
 answer = "Each edge is an object with three integer instance variables. The memory for each edge is 3 * 4 bytes for each integer" \
@@ -234,3 +239,26 @@ graph.addEdge(Edge(0,3,.3))
 
 
 prim = PrimsAlgorithm(graph)
+
+
+#4.3.17 See 4.3.9
+
+#4.3.19
+
+answer = "Each scan through distTo would be a linear time operation. The operation would then be multiplied by V-1. " \
+         "The result of this would be significan decrease in performance. Using the priority queue makes this operation " \
+         "constant time."
+
+#4.3.20
+
+answer = "False. Two vertices may be just an edge apart. Their edge, however, might have a large weight. As a result," \
+         "the vertices would belong to different subtrees."
+
+#4.3.21
+
+def edges(G):
+    edgeTo = G.edgeTo
+    mst = list()
+    for edge in edgeTo:
+        mst.append(edge)
+    return mst
