@@ -118,7 +118,7 @@ answer = "Traverse nodes until finding new edge. Traverse  edgeTo[] array, ident
 
 #4.3.16
 
-
+"""A rendition of Prim's algorithm"""
 
 
 class PrimsAlgorithm:
@@ -135,15 +135,15 @@ class PrimsAlgorithm:
             edge = self.pq.delMin()
             v = edge.either()
             w = edge.other(v)
-            if self.marked[v] and self.marked[w] :
+            if self.marked[v] and self.marked[w]:
                 continue
             self.mst.append((v, w, edge.edge_weight()))
             if self.marked[v] == False:
                 self.visit(v)
             if self.marked[w] == False:
                 self.visit(w)
+        print("The MST", self.mst)
 
-        print("The mst", self.mst)
     def visit(self, v):
 
         self.marked[v] = True
@@ -162,7 +162,6 @@ class IndexMinPQ:
         self.n = 0
 
     def insert(self, i, key):
-        print("i and key", i, key.either())
         self.n += 1
         self.qp[i] = self.n
         self.pq[self.n] = i
@@ -171,6 +170,7 @@ class IndexMinPQ:
 
 
     def swim(self, k,):
+
         while k > 1 and self.less(k//2, k):
             self.exchange(k//2, k)
             k = k//2
@@ -210,8 +210,8 @@ class IndexMinPQ:
 
     def delMin(self):
         minimum_key = self.keys[self.pq[1]]
-        self.n -= 1
         self.exchange(1, self.n)
+        self.n -= 1
         self.sink(1)
         self.keys[self.pq[self.n+1]] = None
         self.qp[self.pq[self.n+1]] = -1
