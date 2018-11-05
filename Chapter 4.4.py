@@ -359,16 +359,64 @@ class EdgeWeightedDirectedCycle:
         return len(self.cycle) > 0
 
 
-graph = EdgeWeightedDiagraph(6)
+# graph = EdgeWeightedDiagraph(6)
+# graph.addEdge(DirectedEdge(0,4, .38))
+# graph.addEdge(DirectedEdge(4,5, .35))
+# # graph.addEdge(DirectedEdge(5,4, .35))
+# graph.addEdge(DirectedEdge(5,1, .32))
+# graph.addEdge(DirectedEdge(1,3, .29))
+# graph.addEdge(DirectedEdge(3,6, .52))
+# graph.addEdge(DirectedEdge(6,2, .4))
+# graph.addEdge(DirectedEdge(0,2, .26))
+# graph.addEdge(DirectedEdge(6,0, .58))
+# graph.addEdge(DirectedEdge(6,4, .93))
+#
+# detect_cycle = EdgeWeightedDirectedCycle(graph, 7)
+
+
+class Topological:
+    def __init__(self, graph, V):
+        self.order = list()
+        detect_cycle = EdgeWeightedDirectedCycle(graph, V)
+        if detect_cycle.hasCycle() == False:
+            dfs = DepthFirstOrder(graph, V)
+            self.order = dfs.reversePost
+
+        for v in reversed(self.order):
+            print("The topolocial order", v)
+
+class DepthFirstOrder:
+    def __init__(self, graph, V):
+        self.pre = list()
+        self.post = list()
+        self.reversePost = list()
+        self.marked = [False] * V
+
+
+        for vertex in range(V):
+            if self.marked[vertex] is False:
+                self.dfs(graph, vertex)
+
+
+    def dfs(self, G, v):
+
+        self.pre.append(v)
+        self.marked[v] = True
+        for w in G.adjacency_list[v]:
+            w = w.toVertex()
+            if self.marked[w] == False:
+                self.dfs(G, w)
+
+        self.post.append(v)
+        self.reversePost.append(v)
+
+graph = EdgeWeightedDiagraph(7)
 graph.addEdge(DirectedEdge(0,4, .38))
 graph.addEdge(DirectedEdge(4,5, .35))
-# graph.addEdge(DirectedEdge(5,4, .35))
 graph.addEdge(DirectedEdge(5,1, .32))
-graph.addEdge(DirectedEdge(1,3, .29))
+graph.addEdge(DirectedEdge(5,7,.77))
 graph.addEdge(DirectedEdge(3,6, .52))
 graph.addEdge(DirectedEdge(6,2, .4))
-graph.addEdge(DirectedEdge(0,2, .26))
-graph.addEdge(DirectedEdge(6,0, .58))
-graph.addEdge(DirectedEdge(6,4, .93))
+graph.addEdge(DirectedEdge(1,3, .29))
 
-detect_cycle = EdgeWeightedDirectedCycle(graph, 7)
+detect_cycle = Topological(graph, 8)
