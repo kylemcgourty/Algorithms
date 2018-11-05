@@ -203,10 +203,166 @@ class Dijkstras_Shortest_Path:
                     self.pq.insert(w, self.distTo[w])
 
 
+# graph = EdgeWeightedDiagraph(6)
+# graph.addEdge(DirectedEdge(0,4, .38))
+# graph.addEdge(DirectedEdge(4,5, .35))
+# graph.addEdge(DirectedEdge(5,4, .35))
+# graph.addEdge(DirectedEdge(5,1, .32))
+# graph.addEdge(DirectedEdge(1,3, .29))
+# graph.addEdge(DirectedEdge(3,6, .52))
+# graph.addEdge(DirectedEdge(6,2, .4))
+# graph.addEdge(DirectedEdge(0,2, .26))
+# graph.addEdge(DirectedEdge(6,0, .58))
+# graph.addEdge(DirectedEdge(6,4, .93))
+
+# Dijkstras_Shortest_Path(7, graph, 0)
+
+
+#4.4.8
+
+answer = 'The diameter is defined to be the maximum length shortest path. In other words, it is the shortest path that ' \
+         'visits the most vertices.'
+
+
+class Dijkstras_Shortest_Path_Diameter:
+    def __init__(self, V, G, src):
+        self.edgeTo = [None] * V
+        self.distTo = [math.inf] * V
+        self.pq = IndexMinPQ()
+        self.G = G
+        self.verticesTo = [0]* V
+
+        self.distTo[src] = 0
+        self.pq.insert(src, 0.0)
+
+        while(self.pq.isEmpty() == False):
+            self.relax(self.pq.delMin())
+
+        for edge in self.edgeTo:
+            if edge is not None:
+                print(edge.fromVertex(), "->", edge.toVertex(), " ", edge.returnWeight())
+
+    def relax(self, vertex):
+        for edge in self.G.adjacency_list[vertex]:
+            w = edge.toVertex()
+            print("The v, dist values and edge weight", vertex, self.distTo[vertex], edge.returnWeight())
+            if self.distTo[w] > self.distTo[vertex] + edge.returnWeight():
+                self.distTo[w] = self.distTo[vertex] + edge.returnWeight()
+                self.edgeTo[w] = edge
+
+                self.verticesTo[w] = self.verticesTo[vertex] + 1
+                if (self.pq.contains(w)):
+                    self.pq.changeKey(w, self.distTo[w])
+                else:
+                    self.pq.insert(w, self.distTo[w])
+
+
+
+
+#4.4.10
+
+answer = "The graph to be considered is the graph tinyEWD.text but with all edges bidirectional."
+
+"""
+edgeTo   distTo   pq
+0-2       .26     .26
+0-4       .38     .38
+edgeTo   distTo   pq
+2-0       .26       .52
+2-7       .34      .60
+0-4       .38      .38
+edgeTo   distTo   pq
+2-0       .26       .52
+2-7       .34       .60
+4-0       .76       .76
+4-7       .75       .75
+4-5       .73       .73
+edgeTo   distTo   pq
+***here, the graph retraces back along 2-0***
+0-2       .78       .78
+0-4       .9         .9
+2-7       .34       .60
+4-0       .76       .76
+4-7       .75       .75
+4-5       .73       .73
+edgeTo   distTo   pq
+0-2       .78       .78
+0-4       .9         .9
+4-0       .76       .76
+4-7       .75       .75
+4-5       .73       .73
+7-3       .99       .99
+7-5       .88       .88
+7-2       .94       .94
+edgeTo   distTo   pq
+0-2       .78       .78
+0-4       .9         .9
+4-0       .76       .76
+4-7       .75       .75
+4-5       .73       .73
+5-1      1.05      1.05
+5-7      1.01      1.01
+5-4      1.08      1.08
+7-3       .99       .99
+7-5       .88       .88
+7-2       .94       .94
+
+"""
+
+#4.4.11
+
+answer = "An edge-weighted graph with an adjaceny list implementation is similar to a two-dimesional array of objects." \
+         "The bytes used can be approximated by 8*V*(E/V) + 32 V + 23 + 28 * E"
+
+
+#4.4.12
+
+class EdgeWeightedDirectedCycle:
+    def __init__(self, G, V):
+
+        self.onStack = [False] * V
+        self.edgeTo = [None] * V
+        self.marked = [False] * V
+        self.cycle = list()
+
+        for vertex in range(V):
+            if self.marked[vertex] is False:
+                self.cycle_detector_dfs(G, vertex)
+
+        for v in self.cycle:
+            print("the cycle:", v)
+
+    def cycle_detector_dfs(self, G, v):
+        self.onStack[v] = True
+        self.marked[v] = True
+
+        for w in G.adjacency_list[v]:
+            w = w.toVertex()
+            print("The w:", w, self.marked)
+            if self.hasCycle():
+                return
+            elif self.marked[w] == False:
+                self.edgeTo[w] = v
+                self.cycle_detector_dfs(G, w)
+            elif self.onStack[w]:
+                x = v
+                while x != w:
+                    self.cycle.append(x)
+                    x = self.edgeTo[x]
+                self.cycle.append(w)
+                self.cycle.append(v)
+
+        self.onStack[v] = False
+
+
+    def hasCycle(self):
+        return len(self.cycle) > 0
+
+
 graph = EdgeWeightedDiagraph(6)
 graph.addEdge(DirectedEdge(0,4, .38))
 graph.addEdge(DirectedEdge(4,5, .35))
-graph.addEdge(DirectedEdge(5,4, .35))
+# graph.addEdge(DirectedEdge(5,4, .35))
 graph.addEdge(DirectedEdge(5,1, .32))
 graph.addEdge(DirectedEdge(1,3, .29))
 graph.addEdge(DirectedEdge(3,6, .52))
@@ -215,4 +371,4 @@ graph.addEdge(DirectedEdge(0,2, .26))
 graph.addEdge(DirectedEdge(6,0, .58))
 graph.addEdge(DirectedEdge(6,4, .93))
 
-Dijkstras_Shortest_Path(7, graph, 0)
+detect_cycle = EdgeWeightedDirectedCycle(graph, 7)
