@@ -420,3 +420,12 @@ graph.addEdge(DirectedEdge(6,2, .4))
 graph.addEdge(DirectedEdge(1,3, .29))
 
 detect_cycle = Topological(graph, 8)
+
+
+#4.4.14
+
+answer = "The first strawman is to take the absolute value of a negative edge and add it to all the other edges." \
+         "The approach is inappropriate because some paths are not necessarily affected by the negative edge. Thus," \
+         "the values of their paths will be unnecessarily inflated." \
+         "The second strawman is to use Dijkstra's algorithm in some way. Again, this method does not work as Dijkstra's" \
+         "algorithm is predicted on the on edges getting longer."
