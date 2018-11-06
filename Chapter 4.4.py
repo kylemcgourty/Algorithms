@@ -30,7 +30,7 @@ class EdgeWeightedDiagraph:
         """From graph"""
         self.V = V
         self.E = 0
-        self.adjacency_list = [[] for i in range(V+1)]
+        self.adjacency_list = [[] for i in range(V)]
         """From std in"""
         # for line in fileinput.input():
         #     edge =line.split(" ")
@@ -336,12 +336,15 @@ class EdgeWeightedDirectedCycle:
         self.onStack[v] = True
         self.marked[v] = True
 
+        for unit in G.adjacency_list:
+            for edge in unit:
+                print(edge.fromVertex(), "->", edge.toVertex(), ":", edge.returnWeight())
         for w in G.adjacency_list[v]:
             w = w.toVertex()
-            print("The w:", w, self.marked)
             if self.hasCycle():
                 return
             elif self.marked[w] == False:
+
                 self.edgeTo[w] = v
                 self.cycle_detector_dfs(G, w)
             elif self.onStack[w]:
@@ -377,13 +380,14 @@ class EdgeWeightedDirectedCycle:
 class Topological:
     def __init__(self, graph, V):
         self.order = list()
-        detect_cycle = EdgeWeightedDirectedCycle(graph, V)
+        detect_cycle = EdgeWeightedDirectedCycle(graph, V+1)
         if detect_cycle.hasCycle() == False:
-            dfs = DepthFirstOrder(graph, V)
+            print("in if being called")
+            dfs = DepthFirstOrder(graph, V+1)
             self.order = dfs.reversePost
 
-        for v in reversed(self.order):
-            print("The topolocial order", v)
+        # for v in reversed(self.order):
+            # print("The topolocial order", v)
 
 class DepthFirstOrder:
     def __init__(self, graph, V):
@@ -410,16 +414,16 @@ class DepthFirstOrder:
         self.post.append(v)
         self.reversePost.append(v)
 
-graph = EdgeWeightedDiagraph(7)
-graph.addEdge(DirectedEdge(0,4, .38))
-graph.addEdge(DirectedEdge(4,5, .35))
-graph.addEdge(DirectedEdge(5,1, .32))
-graph.addEdge(DirectedEdge(5,7,.77))
-graph.addEdge(DirectedEdge(3,6, .52))
-graph.addEdge(DirectedEdge(6,2, .4))
-graph.addEdge(DirectedEdge(1,3, .29))
-
-detect_cycle = Topological(graph, 8)
+# graph = EdgeWeightedDiagraph(7)
+# graph.addEdge(DirectedEdge(0,4, .38))
+# graph.addEdge(DirectedEdge(4,5, .35))
+# graph.addEdge(DirectedEdge(5,1, .32))
+# graph.addEdge(DirectedEdge(5,7,.77))
+# graph.addEdge(DirectedEdge(3,6, .52))
+# graph.addEdge(DirectedEdge(6,2, .4))
+# graph.addEdge(DirectedEdge(1,3, .29))
+#
+# detect_cycle = Topological(graph, 8)
 
 
 #4.4.14
@@ -429,3 +433,70 @@ answer = "The first strawman is to take the absolute value of a negative edge an
          "the values of their paths will be unnecessarily inflated." \
          "The second strawman is to use Dijkstra's algorithm in some way. Again, this method does not work as Dijkstra's" \
          "algorithm is predicted on the on edges getting longer."
+
+
+#4.4.15
+
+answer = "With a negative cycle, calling pathTo would begin an infinite loop."
+
+#4.4.16
+
+answer = "Creating an edge-weighted digraph from an edge-weighted graph, using directed edges that run in both directions" \
+         "would be infeasible for the Bellman-Ford algorithm. Take an edge that has a negative weight: it would be a negative" \
+         "cycle between its two vertices, causing the algorithm to quit."
+
+#4.4.17
+
+answer = "If vertices were added to a queue more than once, they would be relaxed more than once. This would lead to" \
+         "unnecessary processing. In the case of negative weights, the running time could be exponential."
+
+#4.4.18
+
+
+class CriticalPathMethod:
+    def __init__(self, V, duration_list):
+        graph = EdgeWeightedDiagraph(2*V+2)
+        s = 2*V
+        t = 2*V+1
+        for i in range(V):
+            graph.addEdge(DirectedEdge(i, i+V, -duration_list[i][0]))
+            graph.addEdge(DirectedEdge(s, i, 0))
+            graph.addEdge(DirectedEdge(i+V, t, 0))
+            if len(duration_list[i])>1:
+                for j in duration_list[i][1]:
+                    print("in dur li", duration_list[i], i)
+                    graph.addEdge(DirectedEdge(i+V, j, 0.0))
+
+        AcyclicLP = AcyclicSP(graph, 2*V+1, s)
+
+        for k in range(V):
+            print("start times:", k, ":", -AcyclicLP.distTo[k])
+        print("finish time:", -AcyclicLP.distTo[t])
+
+
+class AcyclicSP:
+    def __init__(self, graph, V, s):
+        self.edgeTo = [None]*(V+1)
+        self.distTo = [0] *(V+1)
+        self.G = graph
+        self.distTo[s] = 0
+
+        print("the v going in", V)
+        topological = Topological(graph, V)
+
+        print("The top order", topological.order)
+        for v in reversed(topological.order):
+            self.relax(v)
+
+    def relax(self, vertex):
+        for edge in self.G.adjacency_list[vertex]:
+            w = edge.toVertex()
+            print("w disto, weight,", w, self.distTo, edge.returnWeight())
+            if self.distTo[w] > self.distTo[vertex] + edge.returnWeight():
+                self.distTo[w] = self.distTo[vertex] + edge.returnWeight()
+                self.edgeTo[w] = edge
+
+
+
+
+CPM = CriticalPathMethod(5, [[10, (2, 3)], [11], [12], [1,(4,)], [1]])
