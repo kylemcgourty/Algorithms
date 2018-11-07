@@ -499,4 +499,78 @@ class AcyclicSP:
 
 
 
-CPM = CriticalPathMethod(5, [[10, (2, 3)], [11], [12], [1,(4,)], [1]])
+# CPM = CriticalPathMethod(5, [[10, (2, 3)], [11], [12], [1,(4,)], [1]])
+
+
+#4.4.19
+
+
+class BellmanFord_ShortestPaths:
+    def __init__(self, edgeWeightDigraph, V, s):
+        self.distTo = [math.inf] * V
+        self.edgeTo = [None] * V
+        self.marked = [False] * V
+        self.onQueue = [False] * V
+        self.queue = list()
+        self.G = edgeWeightDigraph
+        self.V = V
+        """cost is the number or relaxations performed"""
+        self.cost = 0
+        self.cycle = None
+
+        self.distTo[s] = 0
+        self.queue.append(s)
+        self.onQueue[s] = True
+        while len(self.queue) > 0 and not self.hasNegativeCycle():
+            v = self.queue.pop(0)
+            self.onQueue[v] = False
+            self.relax(v)
+
+
+    def relax(self, vertex):
+        for edge in self.G.adjacency_list[vertex]:
+            w = edge.toVertex()
+
+            if self.distTo[w] > self.distTo[vertex] + edge.returnWeight():
+                self.distTo[w] = self.distTo[vertex] + edge.returnWeight()
+                self.edgeTo[w] = edge
+
+                if self.onQueue[w] == False:
+                    self.queue.append(w)
+                    self.onQueue[w]= True
+
+            self.cost += 1
+            if self.cost % self.V == 0:
+                self.findNegativeCycle()
+
+
+    def findNegativeCycle(self):
+        V = len(self.edgeTo)
+        spt = EdgeWeightedDiagraph(V)
+        for v in range(V):
+            if self.edgeTo[v] is not None:
+                spt.addEdge(self.edgeTo[v])
+
+        cf = EdgeWeightedDirectedCycle(spt, V)
+        self.cycle = cf.cycle
+
+
+    def hasNegativeCycle(self):
+        return self.cycle is not None
+
+    def negativeCyle(self):
+        return self.cycle
+
+
+graph = EdgeWeightedDiagraph(8)
+graph.addEdge(DirectedEdge(0,4, .38))
+graph.addEdge(DirectedEdge(4,5, .35))
+graph.addEdge(DirectedEdge(5,1, .32))
+graph.addEdge(DirectedEdge(5,7,.77))
+graph.addEdge(DirectedEdge(3,6, .52))
+graph.addEdge(DirectedEdge(6,2, .4))
+graph.addEdge(DirectedEdge(1,3, .29))
+graph.addEdge(DirectedEdge(6,1, -1))
+
+bf = BellmanFord_ShortestPaths(graph, 8, 0)
+print("neg cycle", bf.negativeCyle())
