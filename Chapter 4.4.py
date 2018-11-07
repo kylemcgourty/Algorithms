@@ -574,3 +574,63 @@ graph.addEdge(DirectedEdge(6,1, -1))
 
 bf = BellmanFord_ShortestPaths(graph, 8, 0)
 print("neg cycle", bf.negativeCyle())
+
+
+class Arbitrage:
+    def __init__(self, edgeWeightedDigraph, V, edges_and_rates):
+        self.G = edgeWeightedDigraph(V)
+        self.name = [None]*V
+        for edge in edges_and_rates:
+            self.name = edge[0]
+            for toEdge in edge[1]:
+                self.G.addEge(DirectedEdge(edge[0], toEdge[0],toEdge[1]))
+
+        spt = BellmanFord_ShortestPaths(self.G, 0)
+
+        # if spt.hasNegativeCycle():
+        #     for v in spt.negativeCyle():
+        #         stake = 1000
+        #         print("Starting", stake, self.name[v])
+        #         # stake *= math.exp(edge)
+        #         print(stake, self.name[edge.fromVertex()])
+
+
+
+
+#4.4.21
+
+answer = "Beginning of trace:"
+
+"""
+edgeTo   distTo    Queue
+ 0-4      .38        4
+ edgeTo   distTo    Queue
+ 0-4      .38        7, 5
+ 4-7      .75        
+ 4-5      .73        
+edgeTo   distTo    Queue
+ 0-4      .38        5,3
+ 4-7      .75        
+ 4-5      .73        
+ 7-3      1.09
+ 7-5      1.03
+edgeTo   distTo    Queue
+ 0-4      .38        3,1,7,4
+ 4-7      .75        
+ 4-5      .73        
+ 7-3      1.09
+ 7-5      1.03
+ 5-1      1.05
+ 5-7      1.01
+ 5-4      1.08
+edgeTo   distTo    Queue
+ 0-4      .38        1,7,4, 6
+ 4-7      .75        
+ 4-5      .73        
+ 7-3      1.09
+ 7-5      1.03
+ 5-1      1.05
+ 5-7      1.01
+ 5-4      1.08
+ 3-6      1.61
+"""
