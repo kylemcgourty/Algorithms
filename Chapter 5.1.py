@@ -36,7 +36,7 @@ class keyIndexCounter:
         print("the sorted array", self.aux)
 
 
-keyIndexCounter(courses_and_room)
+# keyIndexCounter(courses_and_room)
 
 
 #5.1.2
@@ -253,3 +253,55 @@ time
 to
 to
 """
+
+#5.1.7
+
+"""To be completed"""
+# class KeyIndexedCounterWithQueue:
+#     def __init__(self, a, size):
+#         self.a = a
+#         self.count = [0]*size;
+#         self.count_helper = [0]*size;
+#         self.aux = [None]*len(a)
+#
+#         self.countKeys()
+#         self.transitionToIndices()
+#         self.accumulateInQueues()
+#
+#         print("the aux array", self.aux)
+#
+#     def countKeys(self):
+#
+#         for class_data in self.a:
+#             self.count[class_data[1]]+=1
+#
+#     def transitionToIndices(self):
+#
+#         for index in self.count:
+#
+#             if index == len(self.count)-1:
+#                 return
+#
+#             self.count[index+1] += self.count[index]
+#
+#     def accumulateInQueues(self):
+#
+#         for class_data in self.a:
+#             diff = self.count[class_data[1]]-self.count[class_data[1]-1]
+#             if self.aux[class_data[1]] == None:
+#                 self.aux[class_data[1]] = [0]*(diff)
+#             else:
+#                 self.aux[class_data[1]][self.count_helper[class_data[1]]] = class_data
+#                 self.count_helper[class_data[1]] +=1
+#
+# counter = KeyIndexedCounterWithQueue(courses_and_room, 6)
+
+
+#5.1.8
+
+answer = "For MSD, the runtime would be proportional to 1/2n^2. For three-way quicksort," \
+         " the runtime is proportinal to 1/2n^2 log R"
+
+#5.1.10
+
+answer = "The worst case runtime would be W*n log (size of alphabet)"
