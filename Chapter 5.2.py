@@ -52,13 +52,100 @@ class Tries:
             index += 1
 
 
-trie = Tries(256)
+# trie = Tries(256)
+# #
+# # trie.put("snowboard", 22)
+# # trie.put("ski", 11)
+# # trie.put("slush", 33)
+# # trie.put("powder", 44)
+# #
+# # print(trie.get("snowboard"))
+# # print(trie.get("sky"))
+# # print(trie.get("powder"))
 
-trie.put("snowboard", 22)
-trie.put("ski", 11)
-trie.put("slush", 33)
-trie.put("powder", 44)
+class TSTNode:
+    def __init__(self, c):
+        self.c = c
+        self.left = None
+        self.mid = None
+        self.right = None
+        self.val = None
 
-print(trie.get("snowboard"))
-print(trie.get("sky"))
-print(trie.get("powder"))
+class TernarySearchTrie:
+    def __init__(self):
+        self.root = None
+
+    def get(self, key):
+
+        node = self.root
+        index = 0
+
+        while(True):
+
+            if node == None:
+                return None
+
+            if index == len(key)-1:
+                return node.val
+
+            character = key[index:index + 1]
+
+            ascii_value = ord(character)
+
+            if ascii_value < node.c:
+                node = node.left
+            elif ascii_value > node.c:
+                    node = node.right
+            elif index < len(key) - 1:
+                node = node.mid
+
+            index +=1
+
+    def put(self, key, val):
+
+        node = self.root
+        index = 0
+
+        while (True):
+
+            if index == len(key)-1:
+                node.val = val
+                return
+
+            character = key[index:index + 1]
+            ascii_value = ord(character)
+
+            if self.root == None:
+                self.root = TSTNode(ascii_value)
+                index +=1
+                node = self.root
+                continue
+
+            if ascii_value < node.c:
+                if node.left == None:
+                    node.left = TSTNode(ascii_value)
+                node = node.left
+            elif ascii_value > node.c:
+                if node.right == None:
+                    node.right = TSTNode(ascii_value)
+                node = node.right
+            elif index < len(key) - 1:
+                if node.mid == None:
+                    node.mid = TSTNode(ascii_value)
+                node = node.mid
+
+
+
+            index += 1
+
+
+
+# tst = TernarySearchTrie()
+#
+# tst.put("databases", 11)
+# tst.put("algorithms", 22)
+# tst.put("operating_systems", 33)
+# tst.put("ai", 44)
+#
+# print(tst.get("ai"))
+# print(tst.get("algorithms"))
