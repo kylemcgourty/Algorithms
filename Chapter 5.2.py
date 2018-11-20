@@ -6,6 +6,8 @@
 #5.2.4 See diagrams PDF.
 
 
+#5.2.5
+
 class Node:
     def __init__(self, R):
         self.val = None
