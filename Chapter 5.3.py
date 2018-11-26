@@ -24,7 +24,7 @@ class BruteForce:
         return text_length
 
 
-brute_search = BruteForce("Ilikeapplebytheloraxinthesky")
+# brute_search = BruteForce("Ilikeapplebytheloraxinthesky")
 
 # print(brute_search.search("lorax"))
 
@@ -53,7 +53,7 @@ DFA = {
 
 
 
-#5.4.4
+#5.3.4
 
 class BlankCounter:
     def __init__(self, text):
@@ -73,19 +73,117 @@ class BlankCounter:
                 return i - amount_of_blanks
 
 
-blanks = BlankCounter("Somewhere over the rain   bow, way up high")
+# blanks = BlankCounter("Somewhere over the rain   bow, way up high")
 # print(blanks.countBlanks(3))
 
 
-#5.5.5
+#5.3.5
 
 """Assume a four letter alphabet: ABCD"""
 
 right = [12, 13, 11, 9]
 
 
-#5.5.6
+#5.3.6
 
 """Assume a five letter alphabet: ABCDR"""
 
 right = [10, 8, 4, 6, 9]
+
+
+#5.3.9
+
+class BoyerMooreSubStringSearch:
+    def __init__(self, pat):
+        self.pat = pat
+        self.m = len(self.pat)
+        self.R = 256
+        self.right = [-1]*self.R
+        self.count = 0
+        self.occurences = list()
+
+        for i in range(self.m):
+            self.right[ord(self.pat[i])] = i
+
+
+    def search(self, text):
+
+        self.n = len(text)
+
+        i = 0
+        while(i < self.n-self.m):
+            skip = 0
+            j = self.m-1
+            while(j > 0):
+                if(ord(self.pat[j]) != ord(text[i+j])):
+                    skip = j - self.right[ord(text[i+j])]
+                    if skip < 1:
+                        skip = 1
+                    break
+                j -= 1
+            if skip == 0:
+                self.count +=1
+                self.occurences.append(i)
+                skip = self.m-1
+                # return i
+            i += skip
+
+
+    def searchAll(self, text):
+
+        self.search(text)
+
+        for match in self.occurences:
+            print("match at index", match, text[67:76])
+
+
+
+# search = BoyerMooreSubStringSearch("reenbeans")
+
+text = "The Lorax visited the Truffula trees and on the trees he found the reenbeans, a delicous fruit to delectable delight, so tangy and bright."
+# search.searchAll(text)
+
+
+#5.3.10
+
+class RabinKarpSeach:
+    def __init__(self, pattern):
+        self.patHash = 0;
+        self.pat = pattern
+        self.m = len(self.pat)
+        self.q = 127
+        self.R = 256
+        self.RM = 1
+        for i in range(self.m-1):
+            self.RM = (self.RM * self.R) % self.q
+
+        self.patHash = self.hash(self.pat, self.m)
+
+    def hash(self, text, m):
+        h = 0
+        for i in range(m):
+            h = (self.R * h + ord(text[i])) % self.q
+        return h
+
+    def search(self, text):
+
+        self.n = len(text)
+        textHash = self.hash(text, self.m)
+        if self.patHash == textHash:
+            return 0
+
+        for i in range(self.n):
+
+            textHash = (textHash + self.q - self.RM*ord(text[i]) % self.q)% self.q
+            textHash = (textHash * self.R + ord(text[i+self.m])) % self.q
+
+            if self.patHash == textHash:
+                return text[i:i+10]
+
+        return self.n
+
+
+
+rabinKarp = RabinKarpSeach("reenbeans")
+
+print("result", rabinKarp.search(text))
