@@ -234,3 +234,5 @@ by (1-R ^-m)/(1-R^-1). Multiplied together, the run time will be less than 2(n-m
 
 answer = "When the last character of pattern is the only chaaracter in the text, Boyer-Moore would examine every character of the text."
 
+
+
