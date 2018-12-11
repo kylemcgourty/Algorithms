@@ -87,3 +87,70 @@ Run length encoding: 124112311 * n
 Huffman encoding: 01 * n
 LWZ: 1 entry in a symbol table.
 """
+
+
+#5.5.9
+
+answer = """
+Run length compression; probability of sequence have a different character at each position: 1 * 256/257 * 256/257 ... = 1 * (256/257)^(n-1)
+When n = 10, the probability is .9617. Let the average bitstream be represented by 11110000. Then it can be represented by two counts of four; four
+is represented by 3 bits. Thus the compression ratio would be 6/8. Overall, a random string will have a higher compression ratio when using
+the run length methods.
+
+For Huffman encoding, random ASCII characters will construct a trie with lower frequencies of repetitions. As a result, the encodings will 
+be near the same length, on average. Let there be 10 random characters in the sample. The height of the Huffman code trie will be ceiling(lg(10)), 
+which is 5. Thus each encoding will have between four and five characters. The compression ratio is ~ 4/8 = 50%
+
+For LZW compression, assume 10 random characters are all unique. The constructed codeword table would contain 9 letter combinations, of 
+which none would be referred to during the compression. Thus, there would be no compression savings.
+
+"""
+
+
+#5.5.10 See 5.5.10.pdf
+
+#5.5.11
+
+answer = "A Huffman code for a two character alphabet would only have encodings 1 and 0"
+
+#5.5.13
+
+answer = "The height of the Huffman code would be lg(n), where n is the length of the string."
+
+#5.5.14
+
+answer = "The Huffman code is not unique. The combinations of leaves may be grouped together on different sides."
+
+#5.5.15
+
+answer = "The advantage would lie in quick a tree traversal."
+
+#5.5.16
+
+answer = """
+LZW encoding of TOBEORNOTTOBE
+
+TOB
+OB
+BE
+EO
+OR
+RN
+NO
+OT
+
+LZW encoding of YABBADAVBADABBADOO
+
+YA
+AB
+BB
+BADO
+AD
+DAB
+AV
+OO
+
+LZW encoding of AAAAAAAA
+
+AAAAAAAA
+"""
