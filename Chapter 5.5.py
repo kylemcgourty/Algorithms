@@ -154,3 +154,38 @@ LZW encoding of AAAAAAAA
 
 AAAAAAAA
 """
+
+
+#5.5.18
+
+answer = "This situation occurs when the codeword being sought is equal to the entry to be added to the codeword table. "
+
+
+#5.5.19
+
+answer = "A Huffman code can be represented by a balanced binary tree. With n entries at the leaves, the height of the tree is lg n." \
+         "With n entries at the leaves, there are n! orders of leaves. For n > 4, n! > 2^n."
+
+
+#5.5.20
+
+answer = "Construct a Huffman code such that a single entry on the right side (1 side of the root) has a high frequency, while many" \
+         "entries on the left of the root (the 0 side) has small frequencies."
+
+#5.5.21
+
+answer = "Low frequency characters will comprise the codewords with the longest length. Since the algorithm begins by constructing the " \
+         "base of the trie, and because the algorithm begins by combining characters with the lowest frequencies, it follows that the codewords" \
+         "at the base of the trie (with the longest length) will exist in pairs."
+
+#5.5.22
+
+answer = "The Huffman code proceeds by joining those entries with the lowest frequencies. If j < i, then either 1) j may be combined with i" \
+         "in a pair or 2) i will be added to the trie after j."
+
+#5.5.23
+
+answer = "A second layer of compression would produced a balanced tree since all of the frequencies would be the same."
+
+#5.5.24 See 5.5.24.pdf
+
